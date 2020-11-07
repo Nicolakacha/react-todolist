@@ -47,22 +47,28 @@ const TodoButton = styled.button`
   margin: 5px 0 0 10px;
   transition: all 0.1s linear;
 `;
+
+const DangerButton = styled(TodoButton)`
+  background: #255E69;
+  color: whitesmoke;
+`
 export default function todoItem({
   todo,
-  handleDeleteTodo,
-  handleToggleIsDone,
+  deleteTodo,
+  editTodo,
+  toggleIsDone,
 }) {
-  const handleDeleteClick = () => handleDeleteTodo(todo.id);
-  const handleCompleteTodo = () => handleToggleIsDone(todo.id);
+  const handleDeleteClick = () => deleteTodo(todo.id);
+  const handleCompleteClick = () => toggleIsDone(todo.id);
+
   return (
     <TodoItemWrapper data-id={todo.id}>
       <TodoContent $isDone={todo.isDone}>{todo.content}</TodoContent>
       <TodoButtonWrapper>
-        <TodoButton onClick={handleCompleteTodo}>
+        <TodoButton onClick={handleCompleteClick}>
           {todo.isDone ? '未完成' : '已完成'}
         </TodoButton>
-        <TodoButton>編輯</TodoButton>
-        <TodoButton onClick={handleDeleteClick}>刪除</TodoButton>
+        <DangerButton onClick={handleDeleteClick}>刪除</DangerButton>
       </TodoButtonWrapper>
     </TodoItemWrapper>
   );

@@ -1,77 +1,85 @@
+/* eslint-disable array-callback-return */
 import './App.css';
 import TodoItem from './TodoItem';
 import styled from 'styled-components';
-import { useState, useRef } from 'react';
+import useTodo from './useTodo';
 
 const Button = styled.button`
-margin-left: 10px;
+  margin-left: 10px;
+`;
+
+const DangerButton = styled(Button)`
+  background: #255e69;
+  color: whitesmoke;
+`;
+
+const NewTodoInput = styled.input`
+  padding: 10px 10px;
+  width: calc(100% - 20px);
+  background-color: #6a959d;
+  color: whitesmoke;
+  font-size: 20px;
+  vertical-align: middle;
+`;
+
+const Container = styled.div`
+  margin: 40px auto;
+  padding: 30px;
+  max-width: 700px;
+  background-color: #D1E2E5;
+  font-family: 'Josefin Sans', sans-serif;
+}
 `;
 
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [value, setValue] = useState('');
-  const id = useRef(1);
-  const newTodo = {
-    id: id.current,
-    content: value,
-    isDone: false,
-  };
-
-  
-  const handleSubmit = (e) => {
-    if (value.trim() !== '' && (e.key === 'Enter')) {
-      setTodos([newTodo, ...todos]);
-      setValue('');
-      id.current++;
-    }
-  };
-  
-  const handleInputChange = (e) => setValue(e.target.value);
-  
-  const handleDeleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  }
-
-  const handleToggleIsDone = (id) => {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id !== id) return todo;
-        return {
-          ...todo,
-          isDone: !todo.isDone,
-        }
-      })
-    )
-  }
+  const {
+    todos,
+    filter,
+    value,
+    handleChange,
+    handleSubmit,
+    deleteTodo,
+    toggleIsDone,
+    showAll,
+    showCompleted,
+    showUncompleted,
+    clearAll,
+  } = useTodo();
 
   return (
     <div className="App">
-      <div className="container">
+      <Container>
         <h1>React Todo List</h1>
-        <div className="filter">
-          <Button>全部</Button>
-          <Button>已完成</Button>
-          <Button>未完成</Button>
+        <div style={{ marginBottom: '30px' }}>
+          <Button onClick={showAll}>全部</Button>
+          <Button onClick={showCompleted}>已完成</Button>
+          <Button onClick={showUncompleted}>未完成</Button>
+          <DangerButton onClick={clearAll}>清空</DangerButton>
         </div>
 
-        <input
-          className="new_todo"
+        <NewTodoInput
           type="text"
           placeholder="Type something and press enter"
           value={value}
-          onChange={handleInputChange}
+          onChange={handleChange}
           onKeyPress={handleSubmit}
         />
 
-        {todos.map((todo) => (
-          <TodoItem 
-            key={todo.id} 
-            todo={todo}
-            handleDeleteTodo={handleDeleteTodo}
-            handleToggleIsDone={handleToggleIsDone}
-          />
-        ))}
-      </div>
+        {todos
+          .filter((todo) => {
+            if (filter === '') return todo;
+            if (filter === 'completed') return todo.isDone === true;
+            if (filter === 'uncompleted') return todo.isDone === false;
+          })
+          .map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              deleteTodo={deleteTodo}
+              toggleIsDone={toggleIsDone}
+            />
+          ))}
+      </Container>
     </div>
   );
 }
