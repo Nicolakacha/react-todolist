@@ -23,15 +23,15 @@ const TodoItemWrapper = styled.div`
 
 const TodoContent = styled.div`
   color: ${(props) => props.theme.colors.primary_5};
-  font-size: 20px;
+  font-size: 16px;
   word-break: break-word;
   width: 68%;
   ${MEDIA_QUERY_MD} {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   ${MEDIA_QUERY_LG} {
-    font-size: 28px;
+    font-size: 22px;
   }
 
   ${(props) =>

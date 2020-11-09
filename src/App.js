@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 import './App.css';
-import TodoItem from './TodoItem';
 import styled from 'styled-components';
+import TodoItem from './TodoItem';
 import useTodo from './useTodo';
 
 const Button = styled.button`
