@@ -11,7 +11,7 @@ export default function useTodo() {
   const [filter, setFilter] = useState('');
   const [todos, setTodos] = useState(() => {
     let todoData = JSON.parse(window.localStorage.getItem('todos'));
-    if (todoData[0] !== undefined) {
+    if (todoData && todoData[0] !== undefined) {
       id.current = todoData[0].id + 1;
       return todoData;
     }
