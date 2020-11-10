@@ -1,8 +1,8 @@
 /* eslint-disable array-callback-return */
 import './App.css';
 import styled from 'styled-components';
-import TodoItem from './TodoItem';
-import useTodo from './useTodo';
+import TodoItem from './components/TodoItem';
+import useTodo from './hooks/useTodo';
 
 const Button = styled.button`
   margin-left: 10px;
